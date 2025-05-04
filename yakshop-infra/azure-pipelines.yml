@@ -1,0 +1,46 @@
+trigger: none
+
+parameters:
+  - name: environment
+    displayName: Target environment
+    type: string
+    default: 'dev'
+    values:
+      - dev
+      - test
+      - acc
+      - prod
+
+  - name: location
+    displayName: Azure Region
+    type: string
+    default: 'westeurope'
+
+  - name: resourceGroup
+    displayName: Resource Group Name
+    type: string
+    default: 'yakshop-${{ parameters.environment }}-rg' # Resource group where the resources will be deployed
+
+stages:
+  - stage: Deploy
+    displayName: Deploy Yakshop Infra
+    jobs:
+      - job: Deploy
+        displayName: Deploy Bicep templates
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - checkout: self
+
+          - task: AzureResourceManagerTemplateDeployment@3
+            displayName: 'Deploy ARM Template'
+            inputs:
+              deploymentScope: 'Subscription'
+              azureResourceManagerConnection: '$(AZURE_SERVICE_CONNECTION)'
+              subscriptionId: '<YOUR_SUBSCRIPTION_ID>'
+              location: ${{ parameters.location }}
+              templateLocation: 'Linked artifact'
+              csmFile: 'bicep/main.bicep'
+              csmParametersFile: 'bicep/parameters/${{ parameters.environment }}.parameters.json'
+              deploymentMode: 'Incremental'
+              deploymentName: 'yakshop-infra-${{ parameters.environment }}'
