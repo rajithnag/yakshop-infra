@@ -9,14 +9,14 @@ The project is organized as follows:
 - **bicep/**: Contains all Bicep templates and modules for resource deployment.
   - **main.bicep**: The main entry point for the Bicep deployment, orchestrating the deployment of all resources.
   - **modules/**: Contains individual Bicep modules for each resource.
-    - **network.bicep**: Defines the virtual network (VNet) with two private subnets and one public subnet.
-    - **apim.bicep**: Sets up the Azure API Management (APIM) service and Application Gateway with SSL and WAF.
-    - **appServicePlan.bicep**: Creates an App Service Plan in the first private subnet.
+    - **network.bicep**: Defines the virtual network (VNet) with appSubnet, databaseSubnet and gatewaySubnet.
+    - **apim.bicep**: Sets up the Azure API Management (APIM) service and Application Gateway with SSL and WAF in gatewaySubnet.
+    - **appServicePlan.bicep**: Creates an App Service Plan in the appSubnet.
     - **webAppFrontend.bicep**: Deploys the frontend web application (Node.js).
     - **webAppBackend.bicep**: Deploys the backend web application (C# on .NET Core).
     - **functionApp.bicep**: Creates an Azure Function App for additional backend tasks.
     - **serviceBus.bicep**: Provisions an Azure Service Bus Queue.
-    - **sqlDatabase.bicep**: Sets up an Azure SQL Database in the second private subnet.
+    - **sqlDatabase.bicep**: Sets up an Azure SQL Database in the databaseSubnet.
     - **storage.bicep**: Provisions Azure Blob Storage.
     - **keyVault.bicep**: Creates an Azure Key Vault for secrets management.
     - **appInsights.bicep**: Sets up Azure Application Insights for monitoring.
